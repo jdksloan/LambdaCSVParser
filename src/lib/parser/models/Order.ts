@@ -1,14 +1,26 @@
-import { Product } from './Product';
+import { OrderLine } from './OrderLine';
 
 export class Order {
-  public orderId: number;
+  public id: string;
+  public email: string;
   public orderDate: string;
-  public userEmail: string;
-  public products: Product[];
-  constructor(orderId: number, orderDate: string, userEmail: string, products: Product[]) {
-    this.orderId = orderId;
+  public total: Number;
+  public orderLines: OrderLine[];
+
+  /**
+   * Creates an instance of Order.
+   * @param {string} id
+   * @param {string} email
+   * @param {string} orderDate
+   * @param {Number} total
+   * @param {OrderLine[]} orderLines
+   * @memberof Order
+   */
+  constructor(id: string, email: string, orderDate: string, total: Number, orderLines: OrderLine[]) {
+    this.id = id;
     this.orderDate = orderDate;
-    this.userEmail = userEmail;
-    this.products = products;
+    this.email = email;
+    this.total = total;
+    this.orderLines = orderLines;
   }
 }

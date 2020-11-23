@@ -9,14 +9,14 @@ describe('Test Order Parser', () => {
     expect(instance).not.toBeUndefined();
   });
 
-  test('Parse Record', () => {
+  test('Parse Record', async () => {
     const instance = new OrderParser();
     const test = '50154,21.06.1972 02:26,gejgoh@example.com,183528|59.02;729108|89.88;';
-    const order: Order = instance.parse(test);
+    const order: Order = await instance.parse(test);
     console.info(order);
-    expect(order.orderId).toBe(50154);
+    expect(order.id).toBe('50154');
     expect(order.orderDate).toBe('21.06.1972 02:26');
-    expect(order.userEmail).toBe('gejgoh@example.com');
-    expect(order.products.length).toBe(2);
+    expect(order.email).toBe('gejgoh@example.com');
+    expect(order.orderLines.length).toBe(2);
   });
 });

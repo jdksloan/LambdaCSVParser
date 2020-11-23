@@ -1,4 +1,3 @@
-import { FlowUtils } from './../utils/FlowUtils';
 import { IProcess } from '../interfaces/IProcess';
 import { OrderParser } from '../parser/OrderParser';
 import { Order } from '../parser/models/Order';
@@ -8,7 +7,7 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
   private _retryAttempts: number;
   private _orderReport: { fail: number; success: number };
 
-  constructor(processor: IProcess<Order, Promise<any>>, retryAttempts: number = 15) {
+  constructor(processor: IProcess<Order, Promise<any>>, retryAttempts: number = 10) {
     this._processor = processor;
     this._retryAttempts = retryAttempts;
     this._orderReport = { fail: 0, success: 0 };
@@ -57,7 +56,6 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
         return;
       } else {
         retry++;
-        FlowUtils.sleep(100);
         await this._put(order, retry);
       }
     } catch (error) {

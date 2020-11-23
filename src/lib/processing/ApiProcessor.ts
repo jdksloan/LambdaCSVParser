@@ -1,5 +1,5 @@
 import { IProcess } from './../interfaces/IProcess';
-import * as http from 'http';
+import * as https from 'https';
 
 export class ApiProcessor<T> implements IProcess<T, Promise<number | undefined>> {
   private _options: {};
@@ -13,8 +13,8 @@ export class ApiProcessor<T> implements IProcess<T, Promise<number | undefined>>
   public async process(data: T): Promise<number | undefined> {
     const path = this._path;
     const put = new Promise<number | undefined>((resolve, reject) => {
-      const options = { ...this._options, path, method: 'POST' };
-      const req = http.request(options, (res) => {
+      const options = { ...this._options, path, method: 'PUT' };
+      const req = https.request(options, (res) => {
         let buffer = '';
         res.on('data', (chunk) => (buffer += chunk));
         res.on('end', () => resolve(res.statusCode));

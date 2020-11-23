@@ -47,7 +47,7 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
 
     try {
       const result = await this._processor.process(order);
-      if (result && result === 200) {
+      if (result && result === 201) {
         console.log(`Order: ${order.id} put!`);
         this._orderReport.success++;
         return;
@@ -57,7 +57,7 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
         return;
       } else {
         retry++;
-        FlowUtils.sleep(50);
+        FlowUtils.sleep(100);
         await this._put(order, retry);
       }
     } catch (error) {

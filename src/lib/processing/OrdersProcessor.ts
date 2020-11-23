@@ -1,3 +1,4 @@
+import { FlowUtils } from './../utils/FlowUtils';
 import { Queue } from '../data/Queue';
 import { IProcess } from '../interfaces/IProcess';
 import { OrderParser } from '../parser/OrderParser';
@@ -38,6 +39,7 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
             if (result === 200) {
               processed++;
             } else if (result === 429) {
+              FlowUtils.sleep(500);
               orders.enqueue(next);
             } else {
               console.error(`Failed to put the order ${next}`);

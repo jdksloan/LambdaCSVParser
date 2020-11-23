@@ -37,8 +37,10 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
           if (result) {
             if (result === 200) {
               processed++;
-            } else {
+            } else if (result === 429) {
               orders.enqueue(next);
+            } else {
+              console.error(`Failed to put the order ${next}`);
             }
           }
         } catch (error) {

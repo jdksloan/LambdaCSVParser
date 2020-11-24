@@ -32,7 +32,7 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
       }
       try {
         const order = orderParser.parse(rawOrder);
-        await this._put(order);
+        await this.put(order);
       } catch (error) {
         console.error(`Failed to parse the order ${rawOrder} with error ${error}`);
       } finally {
@@ -45,7 +45,16 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
     );
   }
 
-  private async _put(order: Order, retry?: number) {
+  /**
+   * Puts the orders to the external API
+   *
+   * @private
+   * @param {Order} order
+   * @param {number} [retry]
+   * @return {*}  {Promise<void>}
+   * @memberof OrdersProcessor
+   */
+  private async put(order: Order, retry?: number): Promise<void> {
     if (!retry) {
       retry = 0;
     }
@@ -64,7 +73,7 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
         await FlowUtils.sleep(Number(result.headers['retry-after']));
       }
       retry++;
-      await this._put(order, retry);
+      await this.put(order, retry);
     } catch (error) {
       this._orderReport.fail++;
       console.error(`Failed to put the order ${order.id} with error ${error}`);

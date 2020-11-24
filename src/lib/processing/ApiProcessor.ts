@@ -1,5 +1,5 @@
 import { IProcess } from './../interfaces/IProcess';
-import * as https from 'https';
+import https from 'https';
 import { IncomingMessage } from 'http';
 
 export class ApiProcessor<T> implements IProcess<T, Promise<IncomingMessage>> {

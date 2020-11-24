@@ -1,0 +1,131 @@
+{
+  "type": "Cart",
+  "id": "88f2679e-5273-40b1-92cf-acd0fdc7a243",
+  "version": 12,
+  "totalQuantityOfItems": 3,
+  "lineItems": [
+    {
+      "id": "43b1da9b-d77f-4147-b40c-acb01ea5d898",
+      "sku": "8713215033542",
+      "productId": "9a644171-35bf-4ff8-a8dd-b18c435f5a35",
+      "name": {
+        "en": "garcia t-shirt oranje gs010805"
+      },
+      "articleName": "GS010805",
+      "colorCode": "2859",
+      "quantity": 2,
+      "prices": {
+        "firstPriceInTheCart": {
+          "fractionDigits": 2,
+          "centAmount": 2999,
+          "currencyCode": "EUR",
+          "type": "centPrecision"
+        },
+        "discountPrice": {
+          "type": "centPrecision",
+          "currencyCode": "EUR",
+          "centAmount": 2000,
+          "fractionDigits": 2
+        },
+        "promotionalPrice": {
+          "type": "centPrecision",
+          "currencyCode": "EUR",
+          "centAmount": 2000,
+          "fractionDigits": 2
+        },
+        "totalPrice": {
+          "type": "centPrecision",
+          "currencyCode": "EUR",
+          "centAmount": 4000,
+          "fractionDigits": 2
+        }
+      },
+      "promotionDescription": {
+        "nl-BE": "sale",
+        "nl-NL": "sale",
+        "fr-BE": ""
+      },
+      "size": "M",
+      "length": "",
+      "availability": {
+        "isOnStock": true,
+        "availableQuantity": 108
+      },
+      "image": "https://jogimages.s3.amazonaws.com/101-garcia/40672/40672-onmodel-front-500-9b0b01e6.jpg",
+      "productSlug": "Garcia-GS010805-2859",
+      "categoryAsUrl": "heren/shirts-en-polos/t-shirts"
+    },
+    {
+      "id": "bcde6bf0-5e54-4fc2-92e1-99347d604e5f",
+      "sku": "8713215033559",
+      "productId": "9a644171-35bf-4ff8-a8dd-b18c435f5a35",
+      "name": {
+        "en": "garcia t-shirt oranje gs010805"
+      },
+      "articleName": "GS010805",
+      "colorCode": "2859",
+      "quantity": 1,
+      "prices": {
+        "firstPriceInTheCart": {
+          "fractionDigits": 2,
+          "centAmount": 2999,
+          "currencyCode": "EUR",
+          "type": "centPrecision"
+        },
+        "discountPrice": {
+          "type": "centPrecision",
+          "currencyCode": "EUR",
+          "centAmount": 2000,
+          "fractionDigits": 2
+        },
+        "promotionalPrice": {
+          "type": "centPrecision",
+          "currencyCode": "EUR",
+          "centAmount": 2000,
+          "fractionDigits": 2
+        },
+        "totalPrice": {
+          "type": "centPrecision",
+          "currencyCode": "EUR",
+          "centAmount": 2000,
+          "fractionDigits": 2
+        }
+      },
+      "promotionDescription": {
+        "nl-BE": "sale",
+        "nl-NL": "sale",
+        "fr-BE": ""
+      },
+      "size": "L",
+      "length": "",
+      "availability": {
+        "isOnStock": true,
+        "availableQuantity": 189
+      },
+      "image": "https://jogimages.s3.amazonaws.com/101-garcia/40672/40672-onmodel-front-500-9b0b01e6.jpg",
+      "productSlug": "Garcia-GS010805-2859",
+      "categoryAsUrl": "heren/shirts-en-polos/t-shirts"
+    }
+  ],
+  "cartState": "Active",
+  "subtotal": {
+    "type": "centPrecision",
+    "currencyCode": "EUR",
+    "centAmount": 6000,
+    "fractionDigits": 2
+  },
+  "totalDiscount": {
+    "type": "centPrecision",
+    "currencyCode": "EUR",
+    "centAmount": 0,
+    "fractionDigits": 2
+  },
+  "vouchers": [],
+  "total": {
+    "type": "centPrecision",
+    "currencyCode": "EUR",
+    "centAmount": 6000,
+    "fractionDigits": 2
+  },
+  "cartMessage": []
+}

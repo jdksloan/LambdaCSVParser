@@ -2,14 +2,14 @@ swagger: '2.0'
 info:
   description: 'Jethro Sloan Swagger store'
   version: '1.0.0'
-  title: 'Online Store'
+  title: 'Jethro Sloan Online Store'
   termsOfService: 'http://swagger.io/terms/'
   contact:
     email: 'jdksloan@gmail.com'
   license:
     name: 'Apache 2.0'
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: 'petstore.swagger.io'
+host: 'jethro.sloan'
 basePath: '/v1'
 tags:
   - name: 'cart'
@@ -36,7 +36,7 @@ paths:
           description: 'Cart object that needs to be added to the store'
           required: true
           schema: # Request body contents
-            $ref: '#/definitions/Cart'
+            $ref: '#/definitions/CreateCart'
       responses:
         200:
           description: 'Cart created'
@@ -48,35 +48,96 @@ paths:
         - cartstore_auth:
             - 'write:carts'
             - 'read:carts'
-  /cart/{userId}:
+
+  /cart/{cartId}:
     get:
       tags:
         - 'cart'
-      summary: 'Find cart by userId'
+      summary: 'Find cart by cartId'
       description: 'Returns a single cart'
       operationId: 'getCartById'
       produces:
         - 'application/xml'
         - 'application/json'
       parameters:
-        - name: 'userId'
+        - name: 'cartId'
           in: 'path'
-          description: 'ID of user to return the cart'
+          description: 'ID of cart to return the cart'
           required: true
           type: 'integer'
           format: 'int64'
       responses:
-        '200':
+        200:
           description: 'Cart found'
           schema:
             $ref: '#/definitions/Cart'
-        '400':
+        400:
           description: 'Invalid ID supplied'
-        '404':
+        404:
           description: 'Cart not found'
       security:
         - api_key: []
+    delete:
+      tags:
+        - 'cart'
+      summary: 'Delete a cart for the user'
+      description: 'Deletes a new shopping cart for the user'
+      operationId: 'deleteCart'
+      consumes:
+        - 'application/json'
+        - 'application/xml'
+      produces:
+        - 'application/xml'
+        - 'application/json'
+      parameters:
+        - name: 'cartId'
+          in: 'path'
+          description: 'ID of cart to return the cart'
+          required: true
+          type: 'integer'
+          format: 'int64'
+      responses:
+        200:
+          description: 'Cart created'
+        500:
+          description: 'Internal error'
+        405:
+          description: 'Invalid input'
+      security:
+        - cartstore_auth:
+            - 'write:carts'
+            - 'read:carts'
   /cart/item:
+    post:
+      tags:
+        - 'cart'
+      summary: 'Add a new item to the cart'
+      description: 'Adds a new item to the shopping cart'
+      operationId: 'addCartItem'
+      consumes:
+        - 'application/json'
+        - 'application/xml'
+      produces:
+        - 'application/xml'
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Item object that to add to the cart'
+          required: true
+          schema: # Request body contents
+            $ref: '#/definitions/CartItem'
+      responses:
+        200:
+          description: 'Item added'
+        500:
+          description: 'Internal error'
+        405:
+          description: 'Invalid input'
+      security:
+        - cartstore_auth:
+            - 'write:carts'
+            - 'read:carts'
     put:
       tags:
         - 'cart'
@@ -95,19 +156,113 @@ paths:
           description: 'Item data to be updated'
           required: true
           schema:
-            $ref: '#/definitions/updateItem'
+            $ref: '#/definitions/CartItem'
       responses:
-        '400':
+        200:
+          description: 'Cart item updated'
+        400:
           description: 'Invalid ID supplied'
-        '404':
+        404:
           description: 'Item not found'
-        '405':
+        405:
           description: 'Validation exception'
       security:
         - cartstore_auth:
             - 'write:carts'
             - 'read:carts'
-
+    delete:
+      tags:
+        - 'cart'
+      summary: 'Delete a cart item'
+      description: ''
+      operationId: 'deleteCartItem'
+      consumes:
+        - 'application/json'
+        - 'application/xml'
+      produces:
+        - 'application/xml'
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Item data to be deleted'
+          required: true
+          schema:
+            $ref: '#/definitions/CartItem'
+      responses:
+        200:
+          description: 'Cart item deleted'
+        400:
+          description: 'Invalid ID supplied'
+        404:
+          description: 'Item not found'
+        405:
+          description: 'Validation exception'
+      security:
+        - cartstore_auth:
+            - 'write:carts'
+            - 'read:carts'
+  /cart/discount:
+    post:
+      tags:
+        - 'cart'
+      summary: 'Add a cart discount'
+      description: ''
+      operationId: 'addCartDiscount'
+      consumes:
+        - 'application/json'
+        - 'application/xml'
+      produces:
+        - 'application/xml'
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Discount to be added'
+          required: true
+          schema:
+            $ref: '#/definitions/CartDiscount'
+      responses:
+        200:
+          description: 'Cart discount added'
+        400:
+          description: 'Invalid ID supplied'
+        404:
+          description: 'Cart not found'
+        405:
+          description: 'Validation exception'
+      security:
+        - cartstore_auth:
+            - 'write:carts'
+            - 'read:carts'
+    delete:
+      tags:
+        - 'cart'
+      summary: 'Delete a cart discount'
+      description: ''
+      operationId: 'deleteCartDiscount'
+      consumes:
+        - 'application/json'
+        - 'application/xml'
+      produces:
+        - 'application/xml'
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Discount data to be removed'
+          required: true
+          schema:
+            $ref: '#/definitions/CartDiscount'
+      responses:
+        200:
+          description: 'Cart discount removed'
+        400:
+          description: 'Invalid ID supplied'
+      security:
+        - cartstore_auth:
+            - 'write:carts'
+            - 'read:carts'
 securityDefinitions:
   cartstore_auth:
     type: 'oauth2'
@@ -123,26 +278,42 @@ securityDefinitions:
 definitions:
   Item:
     type: 'object'
+    required:
+      - 'id'
+      - 'units'
     properties:
       id:
-        type: 'integer'
-        format: 'int64'
+        type: 'string'
+        example: '60b87c27-9868-4483-9e9c-9fcc838e2a89'
       name:
         type: 'string'
-      price:
+        example: 'GStar Jeans'
+      colourCode:
+        type: 'string'
+        example: 'red242-4443'
+      sku:
+        type: 'string'
+        example: '7c75107e-f99e-4ac9-8ebe-77acf6519f56'
+      Prices:
+        $ref: '#/definitions/Prices'
+      quantity:
         type: 'integer'
-      units:
-        type: 'integer'
-      total:
-        type: 'integer'
+        example: 2
   Cart:
     type: 'object'
     required:
       - 'lineItems'
+      - 'locale'
     properties:
       id:
+        type: 'string'
+        example: '55e10253-864a-4412-a84c-216381d606f4'
+      locale:
+        type: 'string'
+        example: 'nl-NL'
+      totalItems:
         type: 'integer'
-        format: 'int64'
+        example: 3
       lineItems:
         type: 'array'
         xml:
@@ -150,22 +321,88 @@ definitions:
           wrapped: true
         items:
           $ref: '#/definitions/Item'
-  updateItem:
+      cartState:
+        type: 'string'
+        example: 'Active'
+      subtotal:
+        $ref: '#/definitions/Price'
+      vouchers:
+        type: 'array'
+        xml:
+          name: 'vouchers'
+          wrapped: true
+        items:
+          $ref: '#/definitions/CartDiscount'
+      total:
+        $ref: '#/definitions/Price'
+  CreateCart:
+    type: 'object'
+    required:
+      - 'lineItems'
+      - 'locale'
+    properties:
+      locale:
+        type: 'string'
+        example: 'nl-NL'
+      lineItems:
+        type: 'array'
+        xml:
+          name: 'items'
+          wrapped: true
+        items:
+          $ref: '#/definitions/Item'
+  CartDiscount:
+    type: 'object'
+    required:
+      - 'cartId'
+      - 'discountCode'
+    properties:
+      cartId:
+        type: 'string'
+        example: '55e10253-864a-4412-a84c-216381d606f4'
+      discountCode:
+        type: 'string'
+        example: 'CHRISTMAS10'
+  CartItem:
     type: 'object'
     required:
       - 'cartId'
       - 'itemId'
-      - 'units'
+      - 'quantity'
     properties:
       cartId:
-        type: 'integer'
+        type: 'string'
         format: 'int64'
       itemId:
+        type: 'string'
+        format: 'int64'
+  Prices:
+    type: 'object'
+    properties:
+      firstPrice:
+        $ref: '#/definitions/Price'
+      discountPrice:
+        $ref: '#/definitions/Price'
+      promotionalPrice:
+        $ref: '#/definitions/Price'
+      totalPrice:
+        $ref: '#/definitions/Price'
+  Price:
+    type: 'object'
+    properties:
+      currencyCode:
+        type: 'string'
+        example: 'EUR'
+      centAmount:
         type: 'integer'
         format: 'int64'
-      units:
-        type: 'integer'
-        format: 'int64'
+        example: 9999
+      type:
+        type: 'string'
+        example: 'cent'
+      decimalPoints:
+        type: 'number'
+        example: 2
 externalDocs:
   description: 'Find out more about Swagger'
   url: 'http://swagger.io'

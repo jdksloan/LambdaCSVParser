@@ -2,6 +2,7 @@ import { ApiProcessor } from './lib/processing/ApiProcessor';
 import { OrdersProcessor } from './lib/processing/OrdersProcessor';
 import { Context, S3Event } from 'aws-lambda';
 import { S3Controller } from './lib/storage/S3Controller';
+import { Order } from './lib/parser/models/Order';
 
 const options = {
   host: 'qgc7c2xwhg.execute-api.eu-central-1.amazonaws.com',
@@ -12,7 +13,6 @@ const options = {
 };
 
 exports.handler = async (event: S3Event, context: Context) => {
-  const processor = new ApiProcessor('/Prod/order', options);
   const bkt = event.Records[0].s3.bucket.name;
   const key = event.Records[0].s3.object.key;
   const s3Controller = new S3Controller();
@@ -21,6 +21,7 @@ exports.handler = async (event: S3Event, context: Context) => {
     Key: key,
   });
   if (doc.Body) {
+    const processor = new ApiProcessor<Order>('/Prod/order', options);
     await new OrdersProcessor(processor).process(doc.Body.toString());
   }
   return;

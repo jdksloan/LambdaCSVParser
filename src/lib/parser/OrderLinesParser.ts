@@ -13,11 +13,13 @@ export class OrderLinesParser implements IParser<string, { total: number; orderL
   parse(raw: string): { total: number; orderLines: OrderLine[] } {
     const orderLines: OrderLine[] = [];
     const rawProducts = raw.split(';');
-    rawProducts.pop();
     const prodParser = new OrderLineParser();
     let total: number = 0;
 
     for (const product of rawProducts) {
+      if (!product) {
+        continue;
+      }
       const parsedProduct = prodParser.parse(product);
       orderLines.push(parsedProduct);
       total += parsedProduct.value;

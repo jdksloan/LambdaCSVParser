@@ -26,6 +26,7 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
     const rawOrders = raw.split('\n');
     const orderParser: OrderParser = new OrderParser();
 
+    // Another solution would be to use a queue and keep trying until the queue is empty within the time frame of the lambda
     for (const rawOrder of rawOrders) {
       if (!rawOrder) {
         continue;
@@ -66,14 +67,18 @@ export class OrdersProcessor implements IProcess<string, Promise<void>> {
         this._orderReport.success++;
         return;
       } else if (retry === this._retryAttempts) {
-        console.error(`Failed to put the order ${order.id} with after ${this._retryAttempts} attempts!`);
+        console.error(`Failed to put the order ${order.id} after ${this._retryAttempts} attempts!`);
         this._orderReport.fail++;
         return;
       } else if (result.statusCode === 429) {
-        await FlowUtils.sleep(Number(result.headers['retry-after']));
+        //Potential idea to use sleep based on the retry after header on the 429 return
+        //await FlowUtils.sleep(Number(result.headers['retry-after']));
+        retry++;
+        await this.put(order, retry);
+      } else {
+        //Possible to retry on all codes but 429 and 201 were the api description
+        throw new Error(`code: ${result.statusCode}`);
       }
-      retry++;
-      await this.put(order, retry);
     } catch (error) {
       this._orderReport.fail++;
       console.error(`Failed to put the order ${order.id} with error ${error}`);
